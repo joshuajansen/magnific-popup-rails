@@ -1,1 +1,1 @@
-//= require ./magnific-popup-rails
+//= require ./jquery.magnific-popup
