@@ -1,0 +1,1 @@
+//= require ./magnific-popup-rails
