@@ -14,7 +14,7 @@ task :update do
 
   # JS
   url = "https://raw.github.com/dimsemenov/Magnific-Popup/master/dist/jquery.magnific-popup.js"
-  outputfile = "vendor/assets/javascripts/magnific-popup-rails/magnific-popup.js"
+  outputfile = "vendor/assets/javascripts/magnific-popup-rails/jquery.magnific-popup.js"
 
   open(outputfile, 'wb') do |file|
     file << open(url).read
