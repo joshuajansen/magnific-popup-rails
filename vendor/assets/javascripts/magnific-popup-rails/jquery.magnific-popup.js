@@ -1,4 +1,4 @@
-/*! Magnific Popup - v0.8.1 - 2013-05-02
+/*! Magnific Popup - v0.8.2 - 2013-05-05
 * http://dimsemenov.com/plugins/magnific-popup/
 * Copyright (c) 2013 Dmitry Semenov; */
 ;(function($) {
@@ -193,11 +193,11 @@ MagnificPopup.prototype = {
 
 			mfp.container = _getEl('container', mfp.wrap);
 		}
+		
+		mfp.contentContainer = _getEl('content');
 		if(mfp.st.preloader) {
 			mfp.preloader = _getEl('preloader', mfp.container, mfp.st.tLoading);
 		}
-		mfp.contentContainer = _getEl('content', mfp.container);
-
 
 
 		// Initializing modules
@@ -273,7 +273,7 @@ MagnificPopup.prototype = {
 		
 		var bodyStyles = {};
 
-		if( mfp.fixedContentPos ) {
+		if( mfp.fixedContentPos && mfp.st.overflowY !== 'scroll' ) {
 			var s = mfp._getScrollbarSize();
 			if(s) {
 				bodyStyles.paddingRight = s;
@@ -433,6 +433,9 @@ MagnificPopup.prototype = {
 	updateItemHTML: function() {
 		var item = mfp.items[mfp.index];
 
+		// Detach and perform modifications
+		mfp.contentContainer.detach();
+
 		if(!item.parsed) {
 			item = mfp.parseEl( mfp.index );
 		}
@@ -454,7 +457,7 @@ MagnificPopup.prototype = {
 		if(_prevContentType && _prevContentType !== item.type) {
 			mfp.container.removeClass('mfp-'+_prevContentType+'-holder');
 		}
-
+		
 		var newContent = mfp['get' + type.charAt(0).toUpperCase() + type.slice(1)](item, mfp.currTemplate[type]);
 		mfp.appendContent(newContent, type);
 
@@ -462,6 +465,9 @@ MagnificPopup.prototype = {
 
 		_mfpTrigger(CHANGE_EVENT, item);
 		_prevContentType = item.type;
+		
+		// Append container back after its content changed
+		mfp.container.prepend(mfp.contentContainer);
 	},
 
 
@@ -556,9 +562,12 @@ MagnificPopup.prototype = {
 						}
 					}
 				}
-
+					
 				e.preventDefault();
 				options.el = $(this);
+				if(options.delegate) {
+					options.items = el.find(options.delegate);
+				}
 				mfp.open(options);
 			}
 			
@@ -575,7 +584,6 @@ MagnificPopup.prototype = {
 		} else {
 			options.isObj = false;
 			if(options.delegate) {
-				options.items = el.find(options.delegate);
 				el.off(eName).on(eName, options.delegate , eHandler);
 			} else {
 				options.items = el;
