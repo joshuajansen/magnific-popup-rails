@@ -14,7 +14,7 @@ I used [markmcconachie's](https://github.com/markmcconachie) [normalize-rails](h
 
 Add this line to your application's Gemfile:
 
-    gem 'magnific-popup-rails', github: "joshuajansen/magnific-popup-rails"
+    gem 'magnific-popup-rails'
 
 And then execute:
 
