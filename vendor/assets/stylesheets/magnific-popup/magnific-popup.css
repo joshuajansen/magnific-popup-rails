@@ -297,6 +297,7 @@ img.mfp-img {
   text-align: left;
   line-height: 18px;
   color: #f3f3f3;
+  word-break: break-word;
   padding-right: 36px; }
 
 .mfp-figure small {
