@@ -1,4 +1,4 @@
-/*! Magnific Popup - v0.9.5 - 2013-08-21
+/*! Magnific Popup - v0.9.7 - 2013-10-10
 * http://dimsemenov.com/plugins/magnific-popup/
 * Copyright (c) 2013 Dmitry Semenov; */
 ;(function($) {
@@ -414,6 +414,8 @@ MagnificPopup.prototype = {
 		mfp.isOpen = true;
 		mfp.updateSize(windowHeight);
 		_mfpTrigger(OPEN_EVENT);
+
+		return data;
 	},
 
 	/**
@@ -827,8 +829,12 @@ $.magnificPopup = {
 	open: function(options, index) {
 		_checkInstance();	
 
-		if(!options) 
+		if(!options) {
 			options = {};
+		} else {
+			options = $.extend(true, {}, options);
+		}
+			
 
 		options.isObj = true;
 		options.index = index || 0;
@@ -836,7 +842,7 @@ $.magnificPopup = {
 	},
 
 	close: function() {
-		return $.magnificPopup.instance.close();
+		return $.magnificPopup.instance && $.magnificPopup.instance.close();
 	},
 
 	registerModule: function(name, module) {
@@ -926,7 +932,9 @@ $.fn.magnificPopup = function(options) {
 		}
 
 	} else {
-
+		// clone options obj
+		options = $.extend(true, {}, options);
+		
 		/*
 		 * As Zepto doesn't support .data() method for objects 
 		 * and it works only in normal browsers
@@ -1043,6 +1051,12 @@ var AJAX_NS = 'ajax',
 		if(_ajaxCur) {
 			_body.removeClass(_ajaxCur);
 		}
+	},
+	_destroyAjaxRequest = function() {
+		_removeAjaxCursor();
+		if(mfp.req) {
+			mfp.req.abort();
+		}
 	};
 
 $.magnificPopup.registerModule(AJAX_NS, {
@@ -1058,14 +1072,9 @@ $.magnificPopup.registerModule(AJAX_NS, {
 			mfp.types.push(AJAX_NS);
 			_ajaxCur = mfp.st.ajax.cursor;
 
-			_mfpOn(CLOSE_EVENT+'.'+AJAX_NS, function() {
-				_removeAjaxCursor();
-				if(mfp.req) {
-					mfp.req.abort();
-				}
-			});
+			_mfpOn(CLOSE_EVENT+'.'+AJAX_NS, _destroyAjaxRequest);
+			_mfpOn('BeforeChange.' + AJAX_NS, _destroyAjaxRequest);
 		},
-
 		getAjax: function(item) {
 
 			if(_ajaxCur)
@@ -1384,7 +1393,8 @@ $.magnificPopup.registerModule('zoom', {
 
 		initZoom: function() {
 			var zoomSt = mfp.st.zoom,
-				ns = '.zoom';
+				ns = '.zoom',
+				image;
 				
 			if(!zoomSt.enabled || !mfp.supportsTransition) {
 				return;
@@ -1488,6 +1498,7 @@ $.magnificPopup.registerModule('zoom', {
 					if(animatedImg) {
 						animatedImg.remove();
 					}
+					image = null;
 				}	
 			});
 		},
@@ -1668,7 +1679,7 @@ var _getLoopedId = function(index) {
 		return index;
 	},
 	_replaceCurrTotal = function(text, curr, total) {
-		return text.replace('%curr%', curr + 1).replace('%total%', total);
+		return text.replace(/%curr%/gi, curr + 1).replace(/%total%/gi, total);
 	};
 
 $.magnificPopup.registerModule('gallery', {
@@ -1732,8 +1743,8 @@ $.magnificPopup.registerModule('gallery', {
 			_mfpOn('BuildControls' + ns, function() {
 				if(mfp.items.length > 1 && gSt.arrows && !mfp.arrowLeft) {
 					var markup = gSt.arrowMarkup,
-						arrowLeft = mfp.arrowLeft = $( markup.replace('%title%', gSt.tPrev).replace('%dir%', 'left') ).addClass(PREVENT_CLOSE_CLASS),			
-						arrowRight = mfp.arrowRight = $( markup.replace('%title%', gSt.tNext).replace('%dir%', 'right') ).addClass(PREVENT_CLOSE_CLASS);
+						arrowLeft = mfp.arrowLeft = $( markup.replace(/%title%/gi, gSt.tPrev).replace(/%dir%/gi, 'left') ).addClass(PREVENT_CLOSE_CLASS),			
+						arrowRight = mfp.arrowRight = $( markup.replace(/%title%/gi, gSt.tNext).replace(/%dir%/gi, 'right') ).addClass(PREVENT_CLOSE_CLASS);
 
 					var eName = supportsFastClick ? 'mfpFastClick' : 'click';
 					arrowLeft[eName](function() {
