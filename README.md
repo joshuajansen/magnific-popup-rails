@@ -4,7 +4,7 @@ Integrates [magnific-popup.css](http://dimsemenov.com/plugins/magnific-popup/) w
 
 Magnific Popup is a free responsive jQuery lightbox plugin that is focused on performance and providing best experience for user with any device (Zepto.js compatible).
 
-The magnific popup is created by Created by Dmitry Semenov.
+The magnific popup is created by Dmitry Semenov.
 
 I used [markmcconachie's](https://github.com/markmcconachie) [normalize-rails](https://github.com/markmcconachie/normalize-rails) gem as an example for setting up this magnific popup gem.
 
