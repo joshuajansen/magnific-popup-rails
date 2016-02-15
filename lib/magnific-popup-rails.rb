@@ -1,7 +1,4 @@
-require "magnific-popup-rails/version"
-require "magnific-popup-rails/engine"
-
 module MagnificPopup
-  module Rails
+  class Engine < ::Rails::Engine
   end
 end
