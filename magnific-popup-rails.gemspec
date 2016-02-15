@@ -1,5 +1,4 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/magnific-popup-rails/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Joshua Jansen"]
@@ -13,7 +12,5 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "magnific-popup-rails"
   gem.require_paths = ["lib"]
-  gem.version       = MagnificPopup::Rails::VERSION
-
-  gem.add_development_dependency "rake"
+  gem.version       = "1.0.1"
 end

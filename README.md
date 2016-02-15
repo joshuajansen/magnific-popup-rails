@@ -6,7 +6,6 @@ Magnific Popup is a free responsive jQuery lightbox plugin that is focused on pe
 
 The magnific popup is created by Dmitry Semenov.
 
-I used [markmcconachie's](https://github.com/markmcconachie) [normalize-rails](https://github.com/markmcconachie/normalize-rails) gem as an example for setting up this magnific popup gem.
 
 # For Rails 3.1+ only
 
@@ -14,7 +13,7 @@ I used [markmcconachie's](https://github.com/markmcconachie) [normalize-rails](h
 
 Add this line to your application's Gemfile:
 
-    gem 'magnific-popup-rails'
+    gem 'magnific-popup-rails', '~> 1.0.1'
 
 And then execute:
 
@@ -24,12 +23,14 @@ And then execute:
 
 
 And then in your application.css
+```
+  *= require magnific-popup
+```
 
-    *= require magnific-popup
-    
 And then in your application.js
-
-    //= require magnific-popup
+```
+  //= require magnific-popup
+```
 
 ## Contributing
 
