@@ -13,7 +13,7 @@ The magnific popup is created by Dmitry Semenov.
 
 Add this line to your application's Gemfile:
 
-    gem 'magnific-popup-rails', '~> 1.0.1'
+    gem 'magnific-popup-rails', '~> 1.1.0'
 
 And then execute:
 

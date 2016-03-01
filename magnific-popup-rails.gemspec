@@ -12,5 +12,5 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "magnific-popup-rails"
   gem.require_paths = ["lib"]
-  gem.version       = "1.0.1"
+  gem.version       = "1.1.0"
 end
